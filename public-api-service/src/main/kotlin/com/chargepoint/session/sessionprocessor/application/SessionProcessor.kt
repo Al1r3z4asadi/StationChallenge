@@ -1,19 +1,21 @@
 package com.chargepoint.session.sessionprocessor.application
 import com.chargepoint.session.messagecontract.commands.Command
 import com.chargepoint.session.messagecontract.commands.StartSessionCommand
+import com.chargepoint.session.messagecontract.events.SessionDecisionMadeEvent
 import com.chargepoint.session.sessionprocessor.domain.Decision
 import com.chargepoint.session.sessionprocessor.domain.DecisionRepository
 import com.chargepoint.session.sessionprocessor.externalservice.auth.AuthServiceAdapter
 import com.chargepoint.session.sessionprocessor.externalservice.callback.CallbackRequest
 import com.chargepoint.session.sessionprocessor.externalservice.callback.CallbackService
 import org.slf4j.LoggerFactory
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
 @Service
 class SessionProcessor (
     private val authService: AuthServiceAdapter,
     private val decisionRepo: DecisionRepository,
-    private val callbackService: CallbackService
+    private val eventPublisher: ApplicationEventPublisher
 ){
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -38,12 +40,13 @@ class SessionProcessor (
             driverToken = cmd.driverToken,
             status      = finalStatus
         )
-        decisionRepo.save(decision)
-        val cbReq = CallbackRequest(
-            station_id   = cmd.stationId,
-            driver_token = cmd.driverToken,
-            status       = finalStatus
+        val event = SessionDecisionMadeEvent(
+            stationId = cmd.stationId,
+            driverToken = cmd.driverToken,
+            status = decision.status,
+            callbackUrl = cmd.callbackUrl,
+            causationId = cmd.correlationId
         )
-        callbackService.sendDecision(cmd.callbackUrl, cbReq)
+        eventPublisher.publishEvent(event)
     }
 }
