@@ -14,7 +14,7 @@ class AuthServiceImpl() : AuthService
     private val notAllowedTokens = setOf(
         "explicitlyBannedToken"
     )
-    override fun checkACL(driverToken: String, stationId: UUID): AuthorizationStatus {
+    override fun checkACL(driverToken: String): AuthorizationStatus {
         return when {
             allowedTokens.contains(driverToken) -> AuthorizationStatus.ALLOWED
             notAllowedTokens.contains(driverToken) -> AuthorizationStatus.NOT_ALLOWED

@@ -24,6 +24,6 @@ class CoreConfig(
     @Bean
     fun authWebClient(builder: WebClient.Builder): WebClient =
         builder
-            .baseUrl("http://auth-service")
+            .baseUrl(authServiceBaseUrl)
             .build()
 }
