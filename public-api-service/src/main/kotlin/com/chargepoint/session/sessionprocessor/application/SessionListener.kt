@@ -1,4 +1,4 @@
-package com.chargepoint.session.sessionprocessor
+package com.chargepoint.session.sessionprocessor.application
 
 import com.chargepoint.session.config.RabbitConfig
 import com.chargepoint.session.messagecontract.commands.Command

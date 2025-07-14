@@ -1,4 +1,4 @@
-package com.chargepoint.session.sessionprocessor
+package com.chargepoint.session.sessionprocessor.externalservice.callback
 
 
 import org.slf4j.LoggerFactory

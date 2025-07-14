@@ -1,4 +1,4 @@
-package com.chargepoint.session.sessionprocessor
+package com.chargepoint.session.sessionprocessor.domain
 
 
 import org.springframework.data.jpa.repository.JpaRepository

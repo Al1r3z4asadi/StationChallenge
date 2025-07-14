@@ -1,11 +1,11 @@
-package com.chargepoint.session.sessionprocessor
+package com.chargepoint.session.sessionprocessor.externalservice.auth
 
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import java.time.Duration
 
 @Service
-class AuthService(
+class AuthServiceAdapter(
     private val authWebClient: WebClient
 ) {
     fun authenticate(driverToken: String): AuthResponse? {
