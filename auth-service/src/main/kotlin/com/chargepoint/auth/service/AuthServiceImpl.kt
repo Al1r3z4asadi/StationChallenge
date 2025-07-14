@@ -1,7 +1,6 @@
 package com.chargepoint.auth.service
 
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class AuthServiceImpl() : AuthService
