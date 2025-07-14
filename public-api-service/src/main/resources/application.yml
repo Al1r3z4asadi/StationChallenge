@@ -1,0 +1,26 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+auth-service:
+  base-url: ${AUTH_SERVICE_BASE_URL:http://localhost:8081}
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:}
+    username: ${SPRING_DATASOURCE_USERNAME:}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/your_db
+    username: your_user
+    password: your_pass
+  rabbitmq:
+    host: localhost

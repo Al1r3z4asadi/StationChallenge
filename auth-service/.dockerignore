@@ -1,0 +1,16 @@
+# Git
+.git
+.gitignore
+
+# Maven
+target/
+pom.xml.bak
+.mvn/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Log files
+*.log

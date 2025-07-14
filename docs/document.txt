@@ -1,0 +1,23 @@
+# Architecture Decision Document
+
+**Decision:** I have chosen the simplified “persist → callback” architecture (second diagram).
+
+## Rationale
+- **Time constraints & MVP focus:** Quick implementation with minimal infrastructure.
+- **Avoid over-engineering:** Single Spring Boot service and Postgres reduce operational complexity.
+- **Low initial throughput:** Expected call volume is modest, so direct callbacks are sufficient.
+
+## Trade-offs and Mitigations
+- **Risk: Lost callbacks**  
+  **Mitigation:** Implement an outbox table and a background poller to ensure idempotent, retried HTTP calls.
+- **Risk: Retry/back-off management**  
+  **Mitigation:** Use Spring Retry (or Resilience4j) for exponential back-off and DLQ semantics.
+- **Risk: Tight coupling**  
+  **Mitigation:** Organize persistence and dispatch logic into separate Spring beans/packages for easy future separation.
+- **Risk: Lack of audit log**  
+  **Mitigation:** Outbox entries serve as a lightweight event log; metrics on pending entries and successes will be published.
+
+## Future Evolution
+If scaling or reliability demands grow:
+1. Swap the outbox poller with a transactional message producer (RabbitMQ/Kafka).  
+2. Keep the callback dispatcher logic intact, switching its source from Postgres to the message bus, preserving idempotency and retry patterns.
