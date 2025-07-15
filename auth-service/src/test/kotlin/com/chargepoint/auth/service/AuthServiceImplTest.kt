@@ -32,7 +32,7 @@ class AuthServiceImplTest {
         val unknownToken = "some-other-token-that-does-not-exist"
 
         val result = authService.checkACL(unknownToken)
-        
+
         assertEquals(AuthorizationStatus.UNKNOWN, result)
     }
 }
